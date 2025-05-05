@@ -49,6 +49,8 @@ function startGame() {
     
     updateScore();
     updateLevel();
+    progressBar = document.querySelector('.progress-bar');
+    updateProgress(timeLeft, totalTime);
     startTimer();
     displayQuestion();
 }
@@ -59,6 +61,7 @@ function startTimer() {
     timer = setInterval(() => {
         timeLeft--;
         updateTimer();
+        updateProgress(timeLeft, totalTime);
         if (timeLeft <= 0) {
             endGame();
         }
@@ -97,6 +100,71 @@ function displayQuestion() {
     document.getElementById('progressBar').style.width = `${progress}%`;
 }
 
+// Add ripple effect function
+function createRipple(event) {
+    const button = event.currentTarget;
+    const ripple = document.createElement('span');
+    const rect = button.getBoundingClientRect();
+    
+    ripple.className = 'ripple';
+    ripple.style.left = `${event.clientX - rect.left - 50}px`;
+    ripple.style.top = `${event.clientY - rect.top - 50}px`;
+    
+    button.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 500);
+}
+
+// Add event listeners for buttons
+function addRippleEffect() {
+    const buttons = document.querySelectorAll('.option-btn, .start-btn, .age-btn, .diff-btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', createRipple);
+    });
+}
+
+// Update displayQuestion function
+function displayQuestion() {
+    if (currentQuestionIndex >= currentQuestions.length) {
+        shuffleArray(currentQuestions);
+        currentQuestionIndex = 0;
+        currentLevel++;
+        updateLevel();
+    }
+
+    const question = currentQuestions[currentQuestionIndex];
+    document.getElementById('questionText').textContent = question.question;
+    
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'option-btn fade-in';
+        button.textContent = option;
+        button.onclick = (e) => {
+            createRipple(e);
+            checkAnswer(index);
+        };
+        optionsContainer.appendChild(button);
+    });
+
+    addRippleEffect();
+}
+
+// Update updateLevel function
+function updateLevel() {
+    const levelElement = document.getElementById('levelValue');
+    levelElement.textContent = currentLevel;
+    levelElement.classList.add('level-up');
+    setTimeout(() => levelElement.classList.remove('level-up'), 500);
+    
+    // Add trophy animation
+    const trophy = document.querySelector('.level i');
+    trophy.style.animation = 'none';
+    setTimeout(() => trophy.style.animation = 'pulse 1.5s infinite', 10);
+}
+
+// Update checkAnswer function
 function checkAnswer(selectedIndex) {
     const question = currentQuestions[currentQuestionIndex];
     const buttons = document.querySelectorAll('.option-btn');
@@ -106,6 +174,11 @@ function checkAnswer(selectedIndex) {
     if (selectedIndex === question.correct) {
         buttons[selectedIndex].classList.add('correct');
         updateScore(true);
+        
+        // Animate score icon
+        const scoreIcon = document.querySelector('.score i');
+        scoreIcon.style.animation = 'none';
+        setTimeout(() => scoreIcon.style.animation = 'pulse 1.5s infinite', 10);
     } else {
         buttons[selectedIndex].classList.add('wrong');
         buttons[question.correct].classList.add('correct');
@@ -118,40 +191,20 @@ function checkAnswer(selectedIndex) {
     }, 1000);
 }
 
-// Score management
-function updateScore(correct = null) {
-    if (correct === true) {
-        currentScore += 10 * currentLevel;
-    } else if (correct === false) {
-        currentScore = Math.max(0, currentScore - 5);
-    }
-    document.getElementById('scoreValue').textContent = currentScore;
-}
-
-function updateLevel() {
-    document.getElementById('levelValue').textContent = currentLevel;
-}
-
-// Game end handling
-// Add at the beginning of the file
-function updateProgress(current, total) {
-    const progress = Math.round((current / total) * 100);
-    document.getElementById("progressBar").style.width = `${progress}%`;
-}
-
-// Add dark mode functions
-function toggleDarkMode() {
-    const body = document.body;
-    const current = body.getAttribute("data-theme");
-    const next = current === "dark" ? "light" : "dark";
-    body.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
-}
-
 // Add to window.onload
 window.onload = () => {
-    const savedTheme = localStorage.getItem("theme") || "light";
+    // Set initial theme
+    const savedTheme = localStorage.getItem("theme") || "dark";
     document.body.setAttribute("data-theme", savedTheme);
+    
+    // Set initial button icon
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+    }
+    
+    // Initialize game state if needed
+    // ... existing onload code ...
 }
 
 // Modify the endGame function to show medal
@@ -214,7 +267,7 @@ function displayQuestion() {
         optionsContainer.appendChild(button);
     });
 
-    updateProgress(currentQuestionIndex, currentQuestions.length);
+    addRippleEffect();
 }
 
 function playAgain() {
