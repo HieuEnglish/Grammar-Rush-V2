@@ -2,206 +2,134 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Rubik', sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #6C63FF, #FF4081);
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .game-container {
     background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     max-width: 800px;
     width: 90%;
-    text-align: center;
+    margin: 2rem;
+}
+
+h1, h2, h3 {
+    font-family: 'Fredoka', cursive;
+    color: #6C63FF;
 }
 
 .welcome-screen h1 {
-    font-size: 3rem;
-    color: #4a4a4a;
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, #6C63FF, #FF4081);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.welcome-screen p {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 2rem;
-}
-
-.difficulty-selection h2 {
-    font-size: 1.5rem;
-    color: #4a4a4a;
-    margin-bottom: 1rem;
-}
-
-.age-group-buttons,
-.difficulty-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
 }
 
 button {
-    padding: 0.8rem 1.5rem;
+    background: #6C63FF;
+    color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .age-btn {
-    background: #e0e7ff;
-    color: #4338ca;
-}
-
-.age-btn.selected {
-    background: #4338ca;
-    color: white;
+    background: linear-gradient(135deg, #6C63FF, #5046e5);
 }
 
 .diff-btn {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.diff-btn.selected {
-    background: #92400e;
-    color: white;
+    background: linear-gradient(135deg, #FFA726, #FB8C00);
 }
 
 .start-btn {
-    background: #34d399;
-    color: white;
-    font-size: 1.2rem;
-    padding: 1rem 2rem;
-    margin-top: 1rem;
-}
-
-.start-btn:disabled {
-    background: #9ca3af;
-    cursor: not-allowed;
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-}
-
-.score, .timer, .level {
-    background: #f3f4f6;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    color: #4a4a4a;
-}
-
-.question-container {
-    margin-bottom: 2rem;
-}
-
-#questionText {
-    font-size: 1.3rem;
-    color: #4a4a4a;
-    margin-bottom: 1.5rem;
-}
-
-.options-container {
-    display: grid;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
 }
 
 .option-btn {
-    background: #f3f4f6;
-    color: #4a4a4a;
-    padding: 1rem;
+    background: white;
+    color: #6C63FF;
+    border: 2px solid #6C63FF;
+    margin: 0.5rem 0;
     text-align: left;
+    transition: all 0.3s ease;
 }
 
 .option-btn:hover {
-    background: #e5e7eb;
+    background: #6C63FF;
+    color: white;
 }
 
 .option-btn.correct {
-    background: #34d399;
+    background: #4CAF50;
     color: white;
+    border-color: #4CAF50;
 }
 
 .option-btn.wrong {
-    background: #ef4444;
+    background: #EF5350;
     color: white;
+    border-color: #EF5350;
 }
 
 .progress-bar {
-    height: 10px;
-    background: #e5e7eb;
-    border-radius: 5px;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
     overflow: hidden;
+    margin-top: 2rem;
 }
 
 .progress {
     height: 100%;
-    background: #4338ca;
-    width: 0;
+    background: linear-gradient(90deg, #6C63FF, #FF4081);
     transition: width 0.3s ease;
 }
 
-.result-screen {
-    text-align: center;
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in forwards;
 }
 
-.result-screen h2 {
-    font-size: 2rem;
-    color: #4a4a4a;
-    margin-bottom: 1.5rem;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.final-score,
-.high-score {
-    font-size: 1.3rem;
-    color: #4a4a4a;
-    margin-bottom: 1rem;
-}
-
-.play-again-btn {
-    background: #4338ca;
-    color: white;
-    font-size: 1.2rem;
-    padding: 1rem 2rem;
-}
-
-.hidden {
-    display: none;
-}
-
+/* Responsive Design */
 @media (max-width: 600px) {
     .game-container {
-        padding: 1rem;
+        padding: 1.5rem;
+        margin: 1rem;
     }
 
     .welcome-screen h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
-    .game-header {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .options-container {
-        grid-template-columns: 1fr;
+    button {
+        width: 100%;
+        font-size: 1rem;
+        margin: 0.5rem 0;
     }
 }
