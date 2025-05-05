@@ -109,9 +109,20 @@
                         High Score: <span id="highScore">0</span>
                     </div>
                 </div>
-                <button onclick="playAgain()" class="play-again-btn">
-                    <i class="fas fa-redo"></i> Play Again
-                </button>
+                <!-- Add after opening body tag -->
+                <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
+                
+                <!-- Add before closing body tag -->
+                <div class="modal" id="medalModal">
+                    <div class="modal-content">
+                        <h2>You earned:</h2>
+                        <span id="medalIcon">🏆</span>
+                        <p id="medalMessage">Amazing job!</p>
+                        <button onclick="playAgain()" class="play-again-btn">
+                            <i class="fas fa-redo"></i> Play Again
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

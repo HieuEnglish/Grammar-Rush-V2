@@ -133,6 +133,28 @@ function updateLevel() {
 }
 
 // Game end handling
+// Add at the beginning of the file
+function updateProgress(current, total) {
+    const progress = Math.round((current / total) * 100);
+    document.getElementById("progressBar").style.width = `${progress}%`;
+}
+
+// Add dark mode functions
+function toggleDarkMode() {
+    const body = document.body;
+    const current = body.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    body.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+}
+
+// Add to window.onload
+window.onload = () => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.body.setAttribute("data-theme", savedTheme);
+}
+
+// Modify the endGame function to show medal
 function endGame() {
     clearInterval(timer);
     
@@ -145,6 +167,54 @@ function endGame() {
     document.getElementById('resultScreen').classList.remove('hidden');
     document.getElementById('finalScore').textContent = currentScore;
     document.getElementById('highScore').textContent = Math.max(highScore, currentScore);
+
+    // Show medal based on score percentage
+    const scorePercentage = (currentScore / (currentQuestions.length * 10 * currentLevel)) * 100;
+    const modal = document.getElementById("medalModal");
+    const icon = document.getElementById("medalIcon");
+    const message = document.getElementById("medalMessage");
+
+    if (scorePercentage >= 90) {
+        icon.textContent = "🥇";
+        message.textContent = "Perfect! You're a grammar master!";
+    } else if (scorePercentage >= 70) {
+        icon.textContent = "🥈";
+        message.textContent = "Great job! Almost perfect!";
+    } else if (scorePercentage >= 50) {
+        icon.textContent = "🥉";
+        message.textContent = "Good effort! Keep practicing!";
+    } else {
+        icon.textContent = "⭐";
+        message.textContent = "Keep learning! You'll improve!";
+    }
+
+    modal.style.display = "flex";
+}
+
+// Modify displayQuestion to update progress
+function displayQuestion() {
+    if (currentQuestionIndex >= currentQuestions.length) {
+        shuffleArray(currentQuestions);
+        currentQuestionIndex = 0;
+        currentLevel++;
+        updateLevel();
+    }
+
+    const question = currentQuestions[currentQuestionIndex];
+    document.getElementById('questionText').textContent = question.question;
+    
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    question.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.className = 'option-btn fade-in';
+        button.textContent = option;
+        button.onclick = () => checkAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+
+    updateProgress(currentQuestionIndex, currentQuestions.length);
 }
 
 function playAgain() {

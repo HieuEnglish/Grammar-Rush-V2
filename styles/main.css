@@ -133,3 +133,89 @@ button:hover {
         margin: 0.5rem 0;
     }
 }
+
+
+/* Dark Mode Variables */
+:root {
+    --bg: #ffffff;
+    --text: #111111;
+    --accent: #6C63FF;
+    --container-bg: rgba(255, 255, 255, 0.95);
+    --button-text: white;
+    --progress-bg: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --bg: #121212;
+    --text: #eeeeee;
+    --accent: #FF4081;
+    --container-bg: rgba(18, 18, 18, 0.95);
+    --button-text: #121212;
+    --progress-bg: #333;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.game-container {
+    background: var(--container-bg);
+}
+
+/* Medal Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--container-bg);
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+#medalIcon {
+    font-size: 4rem;
+    display: block;
+    margin: 1rem 0;
+    animation: medalSpin 1s ease-out;
+}
+
+@keyframes medalSpin {
+    from { transform: scale(0) rotate(-180deg); }
+    to { transform: scale(1) rotate(0); }
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--accent);
+    color: var(--button-text);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    transform: rotate(45deg);
+}
