@@ -29,7 +29,7 @@ Grammar Rush is an interactive web-based game designed to make learning grammar 
 
 ## 🚀 Getting Started
 
-1. Visit the live game at: [Your GitHub Pages URL]
+1. Visit the live game at: https://github.com/HieuEnglish/Grammar-Rush
 
 Or run locally:
 
@@ -37,3 +37,5 @@ Or run locally:
 ```bash
 git clone https://github.com/HieuEnglish/Grammar-Rush.git 
 cd GrammarRush
+
+
