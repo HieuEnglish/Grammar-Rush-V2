@@ -48,62 +48,19 @@ body {
     box-shadow: var(--shadow);
 }
 
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
 .selection-container {
     display: flex;
     flex-direction: column;
     gap: var(--gap-lg);
     margin: var(--gap-lg) 0;
-}
-
-.age-group-buttons,
-.difficulty-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--gap-md);
-    margin: var(--gap-md) 0;
-}
-
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--gap-md);
-    align-items: center;
-    justify-content: center;
-}
-
-.game-header {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--gap-md);
-    margin-bottom: var(--gap-lg);
-}
-
-.options-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
-    margin: var(--gap-md) 0;
-}
-
-.option-btn {
-    margin: 0; /* Remove margin since we're using gap */
-}
-
-@media (max-width: 600px) {
-    .age-group-buttons,
-    .difficulty-buttons {
-        grid-template-columns: 1fr;
-        gap: var(--gap-sm);
-    }
-
-    .game-header {
-        grid-template-columns: 1fr;
-        gap: var(--gap-sm);
-    }
-
-    button {
-        margin: 0; /* Remove margin since we're using gap */
-    }
 }
 
 .selection-section {
@@ -121,89 +78,42 @@ body {
     margin: var(--gap) 0;
 }
 
-.welcome-screen h1 {
-    font-size: var(--h1-size);
-    background: linear-gradient(45deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: calc(var(--gap) * 1.5);
-    text-align: center;
-    line-height: 1.2;
-}
-
-h2 {
-    font-size: var(--h2-size);
-    margin-bottom: var(--gap);
-}
-
-h3 {
-    font-size: var(--h3-size);
-    margin-bottom: var(--gap-md);
-}
-
-p, .stats, .tagline {
-    font-size: var(--body-size);
-    line-height: 1.6;
-}
-
-/* Update button base styles */
 button {
-    padding: 0.6em 1.2em;
-    border: none;
+    padding: 0.75rem 1.5rem;
     border-radius: var(--radius);
-    font-size: var(--button-size);
-    font-weight: 600;
+    border: none;
     cursor: pointer;
-    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
-    will-change: transform;
-    color: white;
+    font-size: var(--button-size);
+    transition: all var(--transition);
+    background: white;
+    color: var(--primary);
 }
 
 button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
-/* Age group buttons */
-.age-btn {
-    background: linear-gradient(135deg, var(--primary), #5046e5);
+.age-btn,
+.diff-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(var(--gap) * 0.5);
-    padding: 1.2em;
+    gap: var(--gap-sm);
+    padding: var(--gap);
 }
 
-.age-btn i {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    margin-bottom: 0.3em;
+.age-btn.selected,
+.diff-btn.selected {
+    background: var(--primary);
+    color: white;
 }
 
-.age-btn small {
-    font-size: 0.85em;
-    opacity: 0.9;
-}
-
-/* Difficulty buttons */
-.diff-btn {
-    background: linear-gradient(135deg, #FFA726, #FB8C00);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5em;
-}
-
-.diff-btn i {
-    font-size: 1.2em;
-}
-
-/* Start button */
 .start-btn {
     background: linear-gradient(135deg, var(--success), #388E3C);
+    color: white;
     font-size: 1.2em;
     padding: 0.8em 2em;
     margin: calc(var(--gap) * 2) auto 0;
@@ -219,36 +129,52 @@ button:active {
     box-shadow: none;
 }
 
-/* Option buttons */
+.game-header {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-md);
+    margin-bottom: var(--gap-lg);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    margin: var(--gap-md) 0;
+}
+
 .option-btn {
-    background: white;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    background: #333;
+    color: white;
+    width: 100%;
     text-align: left;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: none;
     transition: all var(--transition);
-    padding: 1em 1.5em;
 }
 
 .option-btn:hover {
-    background: var(--primary);
-    color: white;
+    background: #444;
     transform: translateX(5px);
 }
 
 .option-btn.correct {
     background: var(--success);
-    color: white;
-    border-color: var(--success);
+    transform: none;
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
 }
 
 .option-btn.wrong {
     background: var(--error);
-    color: white;
-    border-color: var(--error);
+    transform: none;
+    box-shadow: 0 0 15px rgba(239, 83, 80, 0.3);
 }
 
-/* Theme toggle button */
 .theme-toggle {
+    position: fixed;
+    top: var(--gap);
+    right: var(--gap);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -257,459 +183,69 @@ button:active {
     align-items: center;
     justify-content: center;
     background: var(--accent);
+    color: white;
 }
 
 .theme-toggle:hover {
     transform: rotate(45deg);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     :root {
         --gap: 1rem;
+        --h1-size: clamp(1.8rem, 5vw, 2.5rem);
+        --h2-size: clamp(1.3rem, 3vw, 1.8rem);
+        --body-size: clamp(0.8rem, 1.8vw, 1rem);
     }
 
     .game-container {
         width: 95%;
         padding: var(--gap);
+        margin: var(--gap) auto;
     }
 
-    .welcome-screen h1 {
-        font-size: 2.5rem;
+    .button-group {
+        flex-direction: column;
+        gap: var(--gap-sm);
+    }
+
+    .game-info {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-sm);
     }
 
     .age-group-buttons,
     .difficulty-buttons {
         grid-template-columns: 1fr;
+        gap: var(--gap-sm);
     }
-}
 
-
-/* Theme Variables */
-:root {
-    /* Dark theme (default) */
-    --bg: #1a1a1a;
-    --card-bg: #2a2a2a;
-    --text: #ffffff;
-    --text-muted: #a0a0a0;
-    --primary: #6366f1;
-    --accent: #ec4899;
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --error: #ef4444;
-    --border: rgba(255, 255, 255, 0.1);
-    --shadow: rgba(0, 0, 0, 0.3);
-}
-
-/* Light theme */
-[data-theme="light"] {
-    --bg: #fafafa;
-    --card-bg: #ffffff;
-    --text: #111111;
-    --text-muted: #666666;
-    --primary: #4f46e5;
-    --accent: #db2777;
-    --success: #16a34a;
-    --warning: #d97706;
-    --error: #dc2626;
-    --border: rgba(0, 0, 0, 0.1);
-    --shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* Theme Transition */
-* {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: var(--card-bg);
-    color: var(--text);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    z-index: 1000;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-/* Apply theme colors to existing elements */
-body {
-    background-color: var(--bg);
-    color: var(--text);
-}
-
-.game-container {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 6px var(--shadow);
-}
-
-.option-btn {
-    background-color: var(--card-bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-}
-
-.option-btn:hover {
-    background-color: var(--primary);
-    color: white;
-}
-
-.option-btn.correct {
-    background-color: var(--success);
-    color: white;
-}
-
-.option-btn.wrong {
-    background-color: var(--error);
-    color: white;
-}
-
-/* Dark Mode Variables */
-:root {
-    --bg: #ffffff;
-    --text: #111111;
-    --accent: #6C63FF;
-    --container-bg: rgba(255, 255, 255, 0.95);
-    --button-text: white;
-    --progress-bg: #e0e0e0;
-}
-
-[data-theme="dark"] {
-    --bg: #121212;
-    --text: #eeeeee;
-    --accent: #FF4081;
-    --container-bg: rgba(18, 18, 18, 0.95);
-    --button-text: #121212;
-    --progress-bg: #333;
-}
-
-body {
-    background: var(--bg);
-    color: var(--text);
-}
-
-.game-container {
-    background: var(--container-bg);
-}
-
-/* Medal Modal Styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: var(--container-bg);
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-}
-
-#medalIcon {
-    font-size: 4rem;
-    display: block;
-    margin: 1rem 0;
-    animation: medalSpin 1s ease-out;
-}
-
-@keyframes medalSpin {
-    from { transform: scale(0) rotate(-180deg); }
-    to { transform: scale(1) rotate(0); }
-}
-
-/* Dark Mode Toggle */
-.theme-toggle {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    background: var(--accent);
-    color: var(--button-text);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 100;
-}
-
-.theme-toggle:hover {
-    transform: rotate(45deg);
-}
-
-/* Progress Bar Styles */
-.progress-container {
-    width: 100%;
-    height: 8px;
-    background: var(--progress-bg);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-top: var(--gap-lg);
-    position: relative;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transition: width 0.4s ease-out;
-    will-change: width;
-    position: relative;
-}
-
-.progress-bar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        90deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.3) 50%,
-        rgba(255,255,255,0) 100%
-    );
-    animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-/* Visibility States */
-.hidden {
-    display: none !important;
-}
-
-.fade-out {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease-out;
-}
-
-.fade-in {
-    opacity: 1;
-    transition: opacity 0.3s ease-in;
-}
-
-/* Game States */
-.game-header {
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.game-header.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.game-screen {
-    position: relative;
-}
-
-.result-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 1000;
-}
-
-.result-screen.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Animations */
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(0);
-        opacity: 1;
+    .game-header {
+        grid-template-columns: 1fr;
+        gap: var(--gap-sm);
+        text-align: center;
     }
-    100% {
-        transform: scale(4);
-        opacity: 0;
+
+    .question-section {
+        padding: var(--gap-md);
     }
-}
 
-/* Animated Elements */
-.score i, .level i, .timer i {
-    display: inline-block;
-    animation: pulse 1.5s infinite;
-}
+    .options-container {
+        gap: var(--gap-sm);
+    }
 
-.result-icon {
-    animation: bounce 2s infinite;
-}
+    .option-btn {
+        padding: 0.8em 1.2em;
+    }
 
-/* Button Ripple Effect */
-.option-btn, .start-btn, .age-btn, .diff-btn {
-    position: relative;
-    overflow: hidden;
-}
+    button {
+        margin: 0;
+        width: 100%;
+    }
 
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    transform: scale(0);
-    pointer-events: none;
-    width: 100px;
-    height: 100px;
-    animation: ripple 0.5s linear;
-}
-
-/* Level Up Animation */
-@keyframes levelUp {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.5); }
-    100% { transform: scale(1); }
-}
-
-.level-up {
-    animation: levelUp 0.5s ease-out;
-}
-
-/* Correct/Wrong Answer Animations */
-@keyframes correctShake {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(-5deg); }
-    75% { transform: rotate(5deg); }
-}
-
-@keyframes wrongShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-.option-btn.correct {
-    animation: correctShake 0.5s ease;
-}
-
-.option-btn.wrong {
-    animation: wrongShake 0.3s ease;
-}
-
-/* Button Selection States */
-.age-btn.selected,
-.diff-btn.selected {
-    border: 3px solid var(--accent);
-    box-shadow: 0 0 12px rgba(236, 72, 153, 0.3);
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    transform: translateY(-2px);
-}
-
-.age-btn.selected small {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* Button Hover Effects */
-.age-btn:hover,
-.diff-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px var(--shadow);
-}
-
-/* Button Active State */
-.age-btn:active,
-.diff-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px var(--shadow);
-}
-
-/* Button Transitions */
-.age-btn,
-.diff-btn {
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-/* Button States */
-.age-btn,
-.diff-btn {
-    position: relative;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    overflow: hidden;
-}
-
-.age-btn.selected,
-.diff-btn.selected {
-    border-color: var(--accent);
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-}
-
-.age-btn.selected small {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* Start Button States */
-.start-btn {
-    opacity: 0.7;
-    transform: scale(0.98);
-    transition: all 0.3s ease;
-}
-
-.start-btn:disabled {
-    cursor: not-allowed;
-    background: var(--text-muted);
-    transform: none;
-}
-
-.start-btn.ready {
-    opacity: 1;
-    transform: scale(1);
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-}
-
-.start-btn.ready:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+    .theme-toggle {
+        width: 35px;
+        height: 35px;
+    }
 }

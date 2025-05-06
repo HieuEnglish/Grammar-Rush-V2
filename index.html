@@ -3,137 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar Rush - Fun Language Learning Game</title>
+    <title>Grammar Rush</title>
     <link rel="stylesheet" href="styles/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Add modern icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
     <div class="game-container">
-        <div class="welcome-screen" id="welcomeScreen">
-            <div class="logo-container">
-                <i class="fas fa-book-reader logo-icon"></i>
-                <h1>Grammar Rush</h1>
-            </div>
-            <p class="tagline">Master grammar through fun challenges! <i class="fas fa-bolt"></i></p>
+        <div id="welcomeScreen" class="screen">
+            <h1>Grammar Rush</h1>
+            <p class="tagline">Master grammar through fun challenges!</p>
             
-            <div class="difficulty-selection">
-                <h2><i class="fas fa-star"></i> Choose Your Path <i class="fas fa-star"></i></h2>
-                
-                <div class="selection-container">
-                    <div class="selection-section">
-                        <h3><i class="fas fa-users"></i> Age Group</h3>
-                        <!-- Age Group Buttons -->
-                        <div class="age-group-buttons">
-                            <button class="age-btn" data-value="kids" onclick="selectAgeGroup('kids')">
-                                <i class="fas fa-child"></i>
-                                <span>Kids</span>
-                                <small>8-12</small>
-                            </button>
-                            <button class="age-btn" data-value="teens" onclick="selectAgeGroup('teens')">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span>Teens</span>
-                                <small>13-17</small>
-                            </button>
-                            <button class="age-btn" data-value="adults" onclick="selectAgeGroup('adults')">
-                                <i class="fas fa-user-tie"></i>
-                                <span>Adults</span>
-                                <small>18+</small>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="selection-section">
-                        <h3><i class="fas fa-layer-group"></i> Difficulty</h3>
-                        <!-- Difficulty Buttons -->
-                        <div class="difficulty-buttons">
-                            <button class="diff-btn" data-value="easy" onclick="selectDifficulty('easy')">
-                                <i class="fas fa-feather"></i>
-                                <span>Easy</span>
-                            </button>
-                            <button class="diff-btn" data-value="medium" onclick="selectDifficulty('medium')">
-                                <i class="fas fa-feather-alt"></i>
-                                <span>Medium</span>
-                            </button>
-                            <button class="diff-btn" data-value="hard" onclick="selectDifficulty('hard')">
-                                <i class="fas fa-pen-fancy"></i>
-                                <span>Hard</span>
-                            </button>
-                        </div>
+            <div class="selection-container">
+                <div class="selection-section">
+                    <h2>Age Group</h2>
+                    <div class="age-group-buttons">
+                        <button class="age-btn" data-value="kids" onclick="selectAgeGroup('kids')">
+                            <i>👶</i> Kids
+                            <small>Ages 8-12</small>
+                        </button>
+                        <button class="age-btn" data-value="teens" onclick="selectAgeGroup('teens')">
+                            <i>👦</i> Teens
+                            <small>Ages 13-17</small>
+                        </button>
+                        <button class="age-btn" data-value="adults" onclick="selectAgeGroup('adults')">
+                            <i>👨</i> Adults
+                            <small>Ages 18+</small>
+                        </button>
                     </div>
                 </div>
-
-                <button onclick="startGame()" class="start-btn" id="startBtn" disabled>
-                    <i class="fas fa-play"></i> Start Game
+                
+                <div class="selection-section">
+                    <h2>Difficulty</h2>
+                    <div class="difficulty-buttons">
+                        <button class="diff-btn" data-value="easy" onclick="selectDifficulty('easy')">
+                            <i>🌟</i> Easy
+                        </button>
+                        <button class="diff-btn" data-value="medium" onclick="selectDifficulty('medium')">
+                            <i>🌟🌟</i> Medium
+                        </button>
+                        <button class="diff-btn" data-value="hard" onclick="selectDifficulty('hard')">
+                            <i>🌟🌟🌟</i> Hard
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="startBtn" class="start-btn" onclick="startGame()" disabled>
+                    <i>🎮</i> Start Game
                 </button>
             </div>
         </div>
 
-        <div class="game-screen hidden" id="gameScreen">
+        <div id="gameScreen" class="screen hidden">
             <div class="game-header">
                 <div class="score">
-                    <i class="fas fa-star"></i>
-                    Score: <span id="scoreValue">0</span>
+                    <i>🎯</i> Score: <span id="scoreValue">0</span>
                 </div>
                 <div class="timer">
-                    <i class="fas fa-hourglass-half"></i>
-                    Time: <span id="timerValue">60</span>s
+                    <i>⏱️</i> Time: <span id="timerValue">60</span>s
                 </div>
                 <div class="level">
-                    <i class="fas fa-trophy"></i>
-                    Level: <span id="levelValue">1</span>
+                    <i>🏆</i> Level: <span id="levelValue">1</span>
                 </div>
             </div>
-            <div class="question-container">
-                <div class="question-header">
-                    <i class="fas fa-question-circle"></i>
-                    <p id="questionText"></p>
-                </div>
-                <div class="options-container" id="optionsContainer"></div>
+
+            <div class="progress-container">
+                <div class="progress-bar"></div>
             </div>
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
+
+            <div class="question-section">
+                <p id="questionText" class="question"></p>
+                <div id="optionsContainer" class="options-container"></div>
             </div>
         </div>
 
-        <div class="result-screen hidden" id="resultScreen">
-            <div class="result-content">
-                <i class="fas fa-trophy result-icon"></i>
-                <h2>Game Over!</h2>
-                <div class="score-container">
-                    <div class="final-score">
-                        <i class="fas fa-star"></i>
-                        Final Score: <span id="finalScore">0</span>
-                    </div>
-                    <div class="high-score">
-                        <i class="fas fa-crown"></i>
-                        High Score: <span id="highScore">0</span>
-                    </div>
-                </div>
-                <!-- Add after opening body tag -->
-                <button class="theme-toggle" onclick="toggleDarkMode()">☀️</button>
-                
-                <!-- Add before closing body tag -->
-                <div class="modal" id="medalModal">
-                    <div class="modal-content">
-                        <h2>You earned:</h2>
-                        <span id="medalIcon">🏆</span>
-                        <p id="medalMessage">Amazing job!</p>
-                        <button onclick="playAgain()" class="play-again-btn">
-                            <i class="fas fa-redo"></i> Play Again
-                        </button>
-                    </div>
+        <div id="resultScreen" class="screen hidden">
+            <h2>Game Over!</h2>
+            <div class="stats">
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <p>High Score: <span id="highScore">0</span></p>
+            </div>
+
+            <div id="medalModal" class="modal">
+                <div class="modal-content">
+                    <span id="medalIcon">🏅</span>
+                    <p id="medalMessage">Great job!</p>
                 </div>
             </div>
+
+            <button onclick="playAgain()" class="start-btn">
+                <i>🔄</i> Play Again
+            </button>
         </div>
     </div>
 
-    <footer class="game-footer">
-        <p>Made with <i class="fas fa-heart"></i> by Grammar Rush Team</p>
-    </footer>
-
-    <script src="js/questions.js"></script>
-    <script src="js/game.js"></script>
+    <script src="scripts/questions.js"></script>
+    <script src="scripts/game.js"></script>
 </body>
 </html>

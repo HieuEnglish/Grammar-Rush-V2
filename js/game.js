@@ -79,10 +79,14 @@ function checkStartConditions() {
 }
 
 // Game initialization
+// Constants
+const totalTime = 60;
+
+// Game initialization
 function startGame() {
     currentScore = 0;
     currentLevel = 1;
-    timeLeft = 60;
+    timeLeft = totalTime;
     currentQuestionIndex = 0;
     
     // Get questions for selected age group and difficulty
@@ -94,12 +98,25 @@ function startGame() {
     document.getElementById('gameScreen').classList.remove('hidden');
     document.getElementById('resultScreen').classList.add('hidden');
     
-    updateScore();
+    updateScore(0);
     updateLevel();
-    progressBar = document.querySelector('.progress-bar');
+    const progressBar = document.querySelector('.progress-bar');
     updateProgress(timeLeft, totalTime);
     startTimer();
     displayQuestion();
+}
+
+function updateScore(points = 0) {
+    currentScore += points;
+    document.getElementById('scoreValue').textContent = currentScore;
+}
+
+function updateProgress(current, total) {
+    const progressBar = document.querySelector('.progress-bar');
+    if (progressBar) {
+        const percentage = (current / total) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
 }
 
 // Timer management
@@ -134,17 +151,31 @@ function displayQuestion() {
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = '';
     
+    // Use event delegation for option buttons
+    if (!optionsContainer.hasEventListener) {
+        optionsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.option-btn');
+            if (button) {
+                createRipple(e);
+                const selectedIndex = Array.from(optionsContainer.children).indexOf(button);
+                checkAnswer(selectedIndex);
+            }
+        });
+        optionsContainer.hasEventListener = true;
+    }
+    
     question.options.forEach((option, index) => {
         const button = document.createElement('button');
-        button.className = 'option-btn';
+        button.className = 'option-btn fade-in';
         button.textContent = option;
-        button.onclick = () => checkAnswer(index);
         optionsContainer.appendChild(button);
     });
 
     // Update progress bar
     const progress = (currentQuestionIndex / currentQuestions.length) * 100;
     document.getElementById('progressBar').style.width = `${progress}%`;
+
+    addRippleEffect();
 }
 
 // Add ripple effect function
@@ -184,16 +215,29 @@ function displayQuestion() {
     const optionsContainer = document.getElementById('optionsContainer');
     optionsContainer.innerHTML = '';
     
+    // Use event delegation for option buttons
+    if (!optionsContainer.hasEventListener) {
+        optionsContainer.addEventListener('click', (e) => {
+            const button = e.target.closest('.option-btn');
+            if (button) {
+                createRipple(e);
+                const selectedIndex = Array.from(optionsContainer.children).indexOf(button);
+                checkAnswer(selectedIndex);
+            }
+        });
+        optionsContainer.hasEventListener = true;
+    }
+    
     question.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.className = 'option-btn fade-in';
         button.textContent = option;
-        button.onclick = (e) => {
-            createRipple(e);
-            checkAnswer(index);
-        };
         optionsContainer.appendChild(button);
     });
+
+    // Update progress bar
+    const progress = (currentQuestionIndex / currentQuestions.length) * 100;
+    document.getElementById('progressBar').style.width = `${progress}%`;
 
     addRippleEffect();
 }
@@ -284,42 +328,7 @@ window.onload = () => {
     checkStartConditions();
 }
 
-function selectAgeGroup(ageGroup) {
-    // find the button
-    const btn = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
-    if (!btn) return;
 
-    // toggle state
-    if (currentAgeGroup === ageGroup) {
-        currentAgeGroup = '';
-    } else {
-        currentAgeGroup = ageGroup;
-    }
-
-    // sync UI
-    document.querySelectorAll('.age-btn').forEach(b => {
-        b.classList.toggle('selected', b.dataset.value === currentAgeGroup);
-    });
-
-    checkStartConditions();
-}
-
-function selectDifficulty(difficulty) {
-    const btn = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
-    if (!btn) return;
-
-    if (currentDifficulty === difficulty) {
-        currentDifficulty = '';
-    } else {
-        currentDifficulty = difficulty;
-    }
-
-    document.querySelectorAll('.diff-btn').forEach(b => {
-        b.classList.toggle('selected', b.dataset.value === currentDifficulty);
-    });
-
-    checkStartConditions();
-}
 
 // Modify the endGame function to show medal
 function endGame() {
