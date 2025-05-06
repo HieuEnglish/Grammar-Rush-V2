@@ -9,20 +9,36 @@ let currentQuestionIndex = 0;
 
 // Game state management
 function selectAgeGroup(ageGroup) {
-    currentAgeGroup = ageGroup;
-    document.querySelectorAll('.age-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    event.target.classList.add('selected');
+    const clickedButton = event.target;
+    if (currentAgeGroup === ageGroup) {
+        // Deselect if clicking the same button
+        currentAgeGroup = '';
+        clickedButton.classList.remove('selected');
+    } else {
+        // Select new button
+        currentAgeGroup = ageGroup;
+        document.querySelectorAll('.age-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        clickedButton.classList.add('selected');
+    }
     checkStartConditions();
 }
 
 function selectDifficulty(difficulty) {
-    currentDifficulty = difficulty;
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    event.target.classList.add('selected');
+    const clickedButton = event.target;
+    if (currentDifficulty === difficulty) {
+        // Deselect if clicking the same button
+        currentDifficulty = '';
+        clickedButton.classList.remove('selected');
+    } else {
+        // Select new button
+        currentDifficulty = difficulty;
+        document.querySelectorAll('.diff-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        clickedButton.classList.add('selected');
+    }
     checkStartConditions();
 }
 
