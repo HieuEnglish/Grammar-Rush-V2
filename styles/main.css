@@ -631,3 +631,39 @@ body {
 .option-btn.wrong {
     animation: wrongShake 0.3s ease;
 }
+
+/* Button Selection States */
+.age-btn.selected,
+.diff-btn.selected {
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 12px rgba(236, 72, 153, 0.3);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    transform: translateY(-2px);
+}
+
+.age-btn.selected small {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Button Hover Effects */
+.age-btn:hover,
+.diff-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Button Active State */
+.age-btn:active,
+.diff-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+/* Button Transitions */
+.age-btn,
+.diff-btn {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}

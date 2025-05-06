@@ -207,6 +207,30 @@ function checkAnswer(selectedIndex) {
     }, 1000);
 }
 
+// Utility: set up toggling for a group of buttons
+function setupToggleButtons(selector, exclusive = false) {
+    const buttons = document.querySelectorAll(selector);
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (exclusive) {
+                // If already selected, de-select it; otherwise clear others & select this one
+                if (btn.classList.contains('selected')) {
+                    btn.classList.remove('selected');
+                    return btn.dataset.value || '';
+                } else {
+                    buttons.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    return btn.dataset.value;
+                }
+            } else {
+                // non-exclusive: just toggle this button
+                btn.classList.toggle('selected');
+                return btn.classList.contains('selected') ? btn.dataset.value : '';
+            }
+        });
+    });
+}
+
 // Add to window.onload
 window.onload = () => {
     // Set initial theme
@@ -220,7 +244,10 @@ window.onload = () => {
     }
     
     // Initialize game state if needed
-    // ... existing onload code ...
+    // Set up button toggles
+    setupToggleButtons('.age-btn', true);
+    setupToggleButtons('.diff-btn', true);
+    checkStartConditions();
 }
 
 // Modify the endGame function to show medal
