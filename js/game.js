@@ -8,8 +8,13 @@ let currentQuestions = [];
 let currentQuestionIndex = 0;
 
 // Game state management
+// Update the selection functions
 function selectAgeGroup(ageGroup) {
-    const clickedButton = event.target;
+    // Store the clicked button
+    const clickedButton = event.target.closest('.age-btn');
+    if (!clickedButton) return;
+
+    // Update state and UI
     if (currentAgeGroup === ageGroup) {
         // Deselect if clicking the same button
         currentAgeGroup = '';
@@ -22,11 +27,17 @@ function selectAgeGroup(ageGroup) {
         });
         clickedButton.classList.add('selected');
     }
+    
+    // Update start button state
     checkStartConditions();
 }
 
 function selectDifficulty(difficulty) {
-    const clickedButton = event.target;
+    // Store the clicked button
+    const clickedButton = event.target.closest('.diff-btn');
+    if (!clickedButton) return;
+
+    // Update state and UI
     if (currentDifficulty === difficulty) {
         // Deselect if clicking the same button
         currentDifficulty = '';
@@ -39,12 +50,24 @@ function selectDifficulty(difficulty) {
         });
         clickedButton.classList.add('selected');
     }
+    
+    // Update start button state
     checkStartConditions();
 }
 
 function checkStartConditions() {
     const startBtn = document.getElementById('startBtn');
-    startBtn.disabled = !(currentAgeGroup && currentDifficulty);
+    const canStart = currentAgeGroup && currentDifficulty;
+    
+    // Update button state
+    startBtn.disabled = !canStart;
+    
+    // Add/remove visual feedback class
+    if (canStart) {
+        startBtn.classList.add('ready');
+    } else {
+        startBtn.classList.remove('ready');
+    }
 }
 
 // Game initialization
@@ -321,6 +344,7 @@ function playAgain() {
     document.querySelectorAll('.age-btn, .diff-btn').forEach(btn => {
         btn.classList.remove('selected');
     });
+    checkStartConditions();
     document.getElementById('startBtn').disabled = true;
 }
 
