@@ -39,43 +39,60 @@ body {
 
 .game-container {
     max-width: 800px;
-    width: 90%;
-    margin: calc(var(--gap) * 2) auto;
-    padding: calc(var(--gap) * 2);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    width: 100%;
+    background-color: var(--card-bg);
     border-radius: var(--radius);
+    padding: var(--gap);
     box-shadow: var(--shadow);
+    color: white;
+    text-align: center;
 }
 
+h1 {
+    font-size: var(--h1-size);
+    margin-bottom: var(--gap-sm);
+    color: white;
+}
+
+h2 {
+    font-size: var(--h2-size);
+    margin-bottom: var(--gap);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+h3 {
+    font-size: var(--h3-size);
+    margin-bottom: var(--gap-md);
+}
+
+h4 {
+    font-size: var(--body-size);
+    margin-bottom: var(--gap-sm);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Screen management */
 .screen {
     display: none;
+    animation: fadeIn var(--transition);
 }
 
 .screen.active {
     display: block;
 }
 
-.selection-container {
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Button styles */
+.button-group {
     display: flex;
-    flex-direction: column;
-    gap: var(--gap-lg);
-    margin: var(--gap-lg) 0;
-}
-
-.selection-section {
-    background: rgba(255, 255, 255, 0.5);
-    padding: calc(var(--gap) * 1.5);
-    border-radius: var(--radius);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.age-group-buttons,
-.difficulty-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--gap);
-    margin: var(--gap) 0;
+    flex-wrap: wrap;
+    gap: var(--gap-sm);
+    justify-content: center;
+    margin: var(--gap-md) 0;
 }
 
 button {
@@ -85,167 +102,107 @@ button {
     cursor: pointer;
     font-size: var(--button-size);
     transition: all var(--transition);
-    background: white;
-    color: var(--primary);
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.age-btn,
-.diff-btn {
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--primary);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--gap-sm);
-    padding: var(--gap);
-}
-
-.age-btn.selected,
-.diff-btn.selected {
-    background: var(--primary);
+.age-btn, .diff-btn {
+    background-color: #333;
     color: white;
 }
 
-.start-btn {
-    background: linear-gradient(135deg, var(--success), #388E3C);
-    color: white;
-    font-size: 1.2em;
-    padding: 0.8em 2em;
-    margin: calc(var(--gap) * 2) auto 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+.age-btn:hover, .diff-btn:hover {
+    background-color: #444;
 }
 
-.start-btn:disabled {
-    background: #9ca3af;
+.age-btn.selected, .diff-btn.selected {
+    background-color: var(--primary);
+}
+
+.primary-btn {
+    background-color: var(--primary);
+    color: white;
+    font-weight: bold;
+    padding: 1rem 2rem;
+}
+
+.primary-btn:hover {
+    background-color: #5a52e0;
+}
+
+.primary-btn:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
 }
 
+/* Game screen styles */
 .game-header {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--gap-md);
-    margin-bottom: var(--gap-lg);
-}
-
-.options-container {
     display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
-    margin: var(--gap-md) 0;
+    justify-content: space-between;
+    margin-bottom: var(--gap);
 }
 
+.game-info {
+    display: flex;
+    gap: var(--gap-md);
+    justify-content: center;
+    width: 100%;
+}
+
+#question-container {
+    margin-top: var(--gap);
+}
+
+#question-text {
+    font-size: var(--h3-size);
+    margin-bottom: var(--gap);
+}
+
+/* Option buttons */
 .option-btn {
-    background: #333;
+    background-color: #333;
     color: white;
     width: 100%;
     text-align: left;
     padding: 1rem;
     margin-bottom: 0.5rem;
-    border: none;
     transition: all var(--transition);
 }
 
 .option-btn:hover {
-    background: #444;
-    transform: translateX(5px);
+    background-color: #444;
 }
 
 .option-btn.correct {
-    background: var(--success);
-    transform: none;
-    box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+    background-color: var(--success);
 }
 
-.option-btn.wrong {
-    background: var(--error);
-    transform: none;
-    box-shadow: 0 0 15px rgba(239, 83, 80, 0.3);
+.option-btn.incorrect {
+    background-color: var(--error);
 }
 
-.theme-toggle {
-    position: fixed;
-    top: var(--gap);
-    right: var(--gap);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--accent);
-    color: white;
+/* Result screen */
+.reward {
+    font-size: var(--h2-size);
+    color: var(--success);
+    margin: var(--gap) 0;
 }
 
-.theme-toggle:hover {
-    transform: rotate(45deg);
+footer {
+    margin-top: var(--gap);
+    opacity: 0.7;
 }
 
+/* Responsive design */
 @media (max-width: 768px) {
     :root {
         --gap: 1rem;
-        --h1-size: clamp(1.8rem, 5vw, 2.5rem);
-        --h2-size: clamp(1.3rem, 3vw, 1.8rem);
-        --body-size: clamp(0.8rem, 1.8vw, 1rem);
     }
-
-    .game-container {
-        width: 95%;
-        padding: var(--gap);
-        margin: var(--gap) auto;
-    }
-
+    
     .button-group {
         flex-direction: column;
-        gap: var(--gap-sm);
     }
-
+    
     .game-info {
         flex-direction: column;
         align-items: center;
-        gap: var(--gap-sm);
-    }
-
-    .age-group-buttons,
-    .difficulty-buttons {
-        grid-template-columns: 1fr;
-        gap: var(--gap-sm);
-    }
-
-    .game-header {
-        grid-template-columns: 1fr;
-        gap: var(--gap-sm);
-        text-align: center;
-    }
-
-    .question-section {
-        padding: var(--gap-md);
-    }
-
-    .options-container {
-        gap: var(--gap-sm);
-    }
-
-    .option-btn {
-        padding: 0.8em 1.2em;
-    }
-
-    button {
-        margin: 0;
-        width: 100%;
-    }
-
-    .theme-toggle {
-        width: 35px;
-        height: 35px;
     }
 }

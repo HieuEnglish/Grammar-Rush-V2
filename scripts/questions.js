@@ -2,12 +2,12 @@ const questionBank = {
     kids: {
         easy: [
             {
-                question: "Which word correctly completes the sentence? 'The cat ___ sleeping on the couch.'?",
+                question: "Which word correctly completes the sentence? 'The cat ___ sleeping on the couch.'",
                 options: ["is", "are", "am", "be"],
                 correctIndex: 0
             },
             {
-                question: "Choose the correct plural: 'I have two ___.'?",
+                question: "Choose the correct plural: 'I have two ___.'\n",
                 options: ["boxs", "boxes", "box", "boxez"],
                 correctIndex: 1
             },
@@ -140,29 +140,7 @@ const questionBank = {
         ],
         medium: [
             {
-                question: "Choose the sentence with correct verb tense consistency:",
-                options: [
-                    "Yesterday, I go to the store and bought some groceries.",
-                    "Yesterday, I went to the store and bought some groceries.",
-                    "Yesterday, I went to the store and buy some groceries.",
-                    "Yesterday, I goes to the store and bought some groceries."
-                ],
-                correctIndex: 1
-            },
-            {
-                question: "Select the sentence with proper comma usage:",
-                options: [
-                    "After the long meeting we all went home.",
-                    "After the long meeting, we all went home.",
-                    "After, the long meeting we all went home.",
-                    "After the long, meeting we all went home."
-                ],
-                correctIndex: 1
-            }
-        ],
-        hard: [
-            {
-                question: "Identify the sentence with correct subjunctive mood:",
+                question: "Choose the sentence with correct use of the subjunctive mood:",
                 options: [
                     "I wish I was taller.",
                     "I wish I were taller.",
@@ -172,15 +150,40 @@ const questionBank = {
                 correctIndex: 1
             },
             {
-                question: "Choose the sentence with correct modifier placement:",
+                question: "Identify the correct use of the apostrophe:",
                 options: [
-                    "Walking down the street, a tree caught my attention.",
-                    "While walking down the street, I noticed a tree.",
-                    "A tree caught my attention, walking down the street.",
-                    "Down the street walking, a tree I noticed."
+                    "Its going to rain tomorrow.",
+                    "The cat chased it's tail.",
+                    "The dog lost its bone.",
+                    "The book lost it's cover."
+                ],
+                correctIndex: 2
+            }
+        ],
+        hard: [
+            {
+                question: "Select the sentence with correct parallel structure:",
+                options: [
+                    "The CEO was known for his integrity, vision, and being decisive.",
+                    "The CEO was known for his integrity, vision, and decisiveness.",
+                    "The CEO was known for having integrity, vision, and makes decisions.",
+                    "The CEO was known to have integrity, having vision, and being decisive."
+                ],
+                correctIndex: 1
+            },
+            {
+                question: "Choose the sentence with correct subject-verb agreement and pronoun usage:",
+                options: [
+                    "Neither of the candidates have submitted their application.",
+                    "Neither of the candidates has submitted his or her application.",
+                    "Neither of the candidates has submitted their application.",
+                    "Neither of the candidates have submitted his or her application."
                 ],
                 correctIndex: 1
             }
         ]
     }
 };
+
+// Export the question bank
+export default questionBank;
