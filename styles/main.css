@@ -7,7 +7,7 @@
     --error: #EF5350;
     --radius: 0.75rem;
     --gap: 1.5rem;
-    --transition: 0.2s ease;
+    --transition: 0.3s ease;
     --shadow: 0 20px 40px rgba(0,0,0,0.2);
     --gap-sm: 0.5rem;
     --gap-md: 1rem;
@@ -17,6 +17,10 @@
     --h3-size: clamp(1.2rem, 3vw, 1.8rem);
     --body-size: clamp(0.9rem, 2vw, 1.1rem);
     --button-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    --light-bg: #f5f5f5;
+    --light-card-bg: #ffffff;
+    --light-text: #333;
+    --dark-text: #ffffff;
 }
 
 * {
@@ -35,6 +39,18 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: background-color var(--transition);
+}
+
+body.light-theme {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    color: var(--light-text);
+}
+
+.light-theme .game-container {
+    background-color: var(--light-card-bg);
+    color: var(--light-text);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .game-container {
@@ -107,14 +123,39 @@ button {
 .age-btn, .diff-btn {
     background-color: #333;
     color: white;
+    padding: 1rem 2rem;
+    margin: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 150px;
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .age-btn:hover, .diff-btn:hover {
     background-color: #444;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
 }
 
 .age-btn.selected, .diff-btn.selected {
     background-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(108, 99, 255, 0.3);
+}
+
+.age-btn i, .diff-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.age-btn small {
+    font-size: 0.8rem;
+    opacity: 0.8;
 }
 
 .primary-btn {
