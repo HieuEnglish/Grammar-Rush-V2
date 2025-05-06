@@ -10,48 +10,56 @@ let currentQuestionIndex = 0;
 // Game state management
 // Update the selection functions
 function selectAgeGroup(ageGroup) {
-    // Store the clicked button
-    const clickedButton = event.target.closest('.age-btn');
+    // find the button by its data-value
+    const clickedButton = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
     if (!clickedButton) return;
 
-    // Update state and UI
     if (currentAgeGroup === ageGroup) {
-        // Deselect if clicking the same button
+        // deselect
         currentAgeGroup = '';
         clickedButton.classList.remove('selected');
     } else {
-        // Select new button
+        // select only this one
         currentAgeGroup = ageGroup;
-        document.querySelectorAll('.age-btn').forEach(btn => {
-            btn.classList.remove('selected');
-        });
+        document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
         clickedButton.classList.add('selected');
     }
-    
-    // Update start button state
     checkStartConditions();
 }
 
 function selectDifficulty(difficulty) {
-    // Store the clicked button
-    const clickedButton = event.target.closest('.diff-btn');
+    const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
     if (!clickedButton) return;
 
-    // Update state and UI
     if (currentDifficulty === difficulty) {
-        // Deselect if clicking the same button
         currentDifficulty = '';
         clickedButton.classList.remove('selected');
     } else {
-        // Select new button
         currentDifficulty = difficulty;
-        document.querySelectorAll('.diff-btn').forEach(btn => {
-            btn.classList.remove('selected');
-        });
+        document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
         clickedButton.classList.add('selected');
     }
+    checkStartConditions();
+}
+
+// Update window.onload
+window.onload = () => {
+    // Set initial theme
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.body.setAttribute("data-theme", savedTheme);
     
-    // Update start button state
+    // Set initial button icon
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+    }
+    
+    // Reset game state
+    currentAgeGroup = '';
+    currentDifficulty = '';
+    document.querySelectorAll('.age-btn, .diff-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
     checkStartConditions();
 }
 
