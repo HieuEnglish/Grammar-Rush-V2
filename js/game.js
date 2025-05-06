@@ -239,6 +239,7 @@ function checkAnswer(selectedIndex) {
 }
 
 // Utility: set up toggling for a group of buttons
+// Remove the setupToggleButtons function since we won't need it anymore
 function setupToggleButtons(selector, exclusive = false) {
     const buttons = document.querySelectorAll(selector);
     buttons.forEach(btn => {
@@ -274,10 +275,49 @@ window.onload = () => {
         themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
     }
     
-    // Initialize game state if needed
-    // Set up button toggles
-    setupToggleButtons('.age-btn', true);
-    setupToggleButtons('.diff-btn', true);
+    // Reset game state
+    currentAgeGroup = '';
+    currentDifficulty = '';
+    document.querySelectorAll('.age-btn, .diff-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    checkStartConditions();
+}
+
+function selectAgeGroup(ageGroup) {
+    // find the button
+    const btn = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
+    if (!btn) return;
+
+    // toggle state
+    if (currentAgeGroup === ageGroup) {
+        currentAgeGroup = '';
+    } else {
+        currentAgeGroup = ageGroup;
+    }
+
+    // sync UI
+    document.querySelectorAll('.age-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.value === currentAgeGroup);
+    });
+
+    checkStartConditions();
+}
+
+function selectDifficulty(difficulty) {
+    const btn = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
+    if (!btn) return;
+
+    if (currentDifficulty === difficulty) {
+        currentDifficulty = '';
+    } else {
+        currentDifficulty = difficulty;
+    }
+
+    document.querySelectorAll('.diff-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.value === currentDifficulty);
+    });
+
     checkStartConditions();
 }
 
