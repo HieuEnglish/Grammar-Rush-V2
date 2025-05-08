@@ -14,14 +14,14 @@ function selectAgeGroup(ageGroup) {
     const clickedButton = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
     if (!clickedButton) return;
 
+    // Always remove previous selection first
+    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
+
+    // Toggle selection
     if (currentAgeGroup === ageGroup) {
-        // deselect
         currentAgeGroup = '';
-        clickedButton.classList.remove('selected');
     } else {
-        // select only this one
         currentAgeGroup = ageGroup;
-        document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
         clickedButton.classList.add('selected');
     }
     checkStartConditions();
@@ -31,12 +31,14 @@ function selectDifficulty(difficulty) {
     const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
     if (!clickedButton) return;
 
+    // Always remove previous selection first
+    document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
+
+    // Toggle selection
     if (currentDifficulty === difficulty) {
         currentDifficulty = '';
-        clickedButton.classList.remove('selected');
     } else {
         currentDifficulty = difficulty;
-        document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
         clickedButton.classList.add('selected');
     }
     checkStartConditions();

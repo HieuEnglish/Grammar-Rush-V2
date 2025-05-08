@@ -146,6 +146,17 @@ button {
     background-color: var(--primary);
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(108, 99, 255, 0.3);
+    border: 2px solid #fff;
+    position: relative;
+}
+
+.age-btn.selected::after, .diff-btn.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1rem;
+    color: #fff;
 }
 
 .age-btn i, .diff-btn i {
