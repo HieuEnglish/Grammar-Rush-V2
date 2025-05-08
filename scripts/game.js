@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadQuestions();
             loadQuestion();
         }
+    }
 
     // Game initialization and logic
     function startGame() {
@@ -275,27 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-
-function endGame() {
-    clearInterval(timer);
-    showScreen(resultScreen);
-    finalScoreDisplay.textContent = currentScore;
-    highScoreDisplay.textContent = highScore;
-}
-
-function showReward(message) {
-    rewardMessage.textContent = message;
-    rewardMessage.classList.add('show');
-    setTimeout(() => rewardMessage.classList.remove('show'), 1500);
-}
-
-function playAgain() {
-    showScreen(welcomeScreen);
-    currentAgeGroup = '';
-    currentDifficulty = '';
-    document.querySelectorAll('.age-btn, .diff-btn').forEach(btn => btn.classList.remove('selected'));
-    checkStartConditions();
-}
 
 // Theme toggle
 function toggleTheme() {
