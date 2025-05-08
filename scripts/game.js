@@ -97,38 +97,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Game screens management
     function showScreen(screen) {
-        // Hide all screens
-        selectionScreen.classList.remove('active');
-        gameScreen.classList.remove('active');
-        resultScreen.classList.remove('active');
+        // Hide all screens first
+        [selectionScreen, gameScreen, resultScreen].forEach(s => s.classList.add('hidden'));
         
         // Show the requested screen
-        screen.classList.add('active');
-    }
+        screen.classList.remove('hidden');
+        
+        // Special handling for game screen
+        if (screen === gameScreen && currentAgeGroup && currentDifficulty) {
+            loadQuestions();
+            loadQuestion();
+        }
 
     // Game initialization and logic
     function startGame() {
+        if (!currentAgeGroup || !currentDifficulty) {
+            console.error('Age group or difficulty not selected');
+            return;
+        }
+
         // Reset game state
         currentScore = 0;
         currentLevel = 1;
         timeLeft = 60;
+        currentQuestionIndex = 0;
         
+        // Load questions first
+        loadQuestions();
+        
+        if (currentQuestions.length === 0) {
+            console.error('No questions loaded');
+            return;
+        }
+
         // Update UI
         scoreDisplay.textContent = currentScore;
         levelDisplay.textContent = currentLevel;
         timeDisplay.textContent = timeLeft + 's';
         
-        // Load questions based on selections
-        loadQuestions();
-        
-        // Show game screen
+        // Show game screen and load first question
         showScreen(gameScreen);
+        loadQuestion();
         
         // Start the timer
         startTimer();
-        
-        // Load first question
-        loadQuestion();
     }
 
     function loadQuestions() {
