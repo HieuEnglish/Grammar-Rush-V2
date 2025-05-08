@@ -12,9 +12,11 @@ function selectAgeGroup(age) {
     if (selectedBtn) {
         selectedBtn.classList.add('selected');
         selectedAge = age;
+    } else {
+        selectedAge = '';
     }
     
-    checkStartButtonState();
+    checkStartConditions();
 }
 
 function selectDifficulty(difficulty) {
@@ -28,15 +30,25 @@ function selectDifficulty(difficulty) {
     if (selectedBtn) {
         selectedBtn.classList.add('selected');
         selectedDifficulty = difficulty;
+    } else {
+        selectedDifficulty = '';
     }
     
-    checkStartButtonState();
+    checkStartConditions();
 }
 
-function checkStartButtonState() {
+function checkStartConditions() {
     const startButton = document.querySelector('#startGameBtn');
     if (startButton) {
-        startButton.disabled = !(selectedAge && selectedDifficulty);
+        const canStart = selectedAge && selectedDifficulty;
+        startButton.disabled = !canStart;
+        
+        // Add/remove visual feedback class
+        if (canStart) {
+            startButton.classList.add('ready');
+        } else {
+            startButton.classList.remove('ready');
+        }
     }
 }
 

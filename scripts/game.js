@@ -12,8 +12,20 @@ let currentQuestions = [];
 let currentQuestionIndex = 0;
 let highScore = localStorage.getItem('grammarRushHighScore') || 0;
 
+// Initialize theme
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
 // Wait for DOM to load before attaching event listeners
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme
+    initTheme();
     // DOM Elements
     const startBtn = document.getElementById('start-btn');
     const playAgainBtn = document.getElementById('play-again-btn');
@@ -57,35 +69,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickedButton = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
         if (!clickedButton) return;
 
-        if (currentAgeGroup === ageGroup) {
-            // deselect
-            currentAgeGroup = '';
-            clickedButton.classList.remove('selected');
-        } else {
-            // select only this one
+        // Always remove previous selection first
+        document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
+
+        // Select new option if it's different from current
+        if (currentAgeGroup !== ageGroup) {
             currentAgeGroup = ageGroup;
-            document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
             clickedButton.classList.add('selected');
+        } else {
+            currentAgeGroup = '';
         }
+        
         checkStartConditions();
     }
+
+    // Make selectAgeGroup available globally
+    window.selectAgeGroup = selectAgeGroup;
 
     function selectDifficulty(difficulty) {
         const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
         if (!clickedButton) return;
 
-        if (currentDifficulty === difficulty) {
-            // deselect
-            currentDifficulty = '';
-            clickedButton.classList.remove('selected');
-        } else {
-            // select only this one
+        // Always remove previous selection first
+        document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
+
+        // Select new option if it's different from current
+        if (currentDifficulty !== difficulty) {
             currentDifficulty = difficulty;
-            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
             clickedButton.classList.add('selected');
+        } else {
+            currentDifficulty = '';
         }
+
         checkStartConditions();
     }
+
+    // Make selectDifficulty available globally
+    window.selectDifficulty = selectDifficulty;
 
     function checkStartConditions() {
         const canStart = currentAgeGroup && currentDifficulty;
@@ -286,4 +306,8 @@ function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     const themeToggle = document.querySelector('.theme-toggle');
     themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
 }
+
+// Make toggleTheme available globally
+window.toggleTheme = toggleTheme;
