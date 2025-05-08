@@ -88,10 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkStartConditions() {
-        if (currentAgeGroup && currentDifficulty) {
-            startBtn.disabled = false;
+        const canStart = currentAgeGroup && currentDifficulty;
+        startBtn.disabled = !canStart;
+        
+        // Add/remove visual feedback class
+        if (canStart) {
+            startBtn.classList.add('ready');
         } else {
-            startBtn.disabled = true;
+            startBtn.classList.remove('ready');
         }
     }
 
