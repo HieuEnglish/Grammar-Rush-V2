@@ -22,6 +22,72 @@ function initTheme() {
     }
 }
 
+// Game class
+export class Game {
+    constructor() {
+        this.score = 0;
+        this.timer = null;
+        this.timeLeft = 60;
+        this.currentQuestion = null;
+        this.ageGroup = null;
+        this.difficulty = null;
+    }
+
+    initialize(ageGroup, difficulty) {
+        this.ageGroup = ageGroup;
+        this.difficulty = difficulty;
+        this.score = 0;
+        this.timeLeft = 60;
+    }
+
+    startTimer(callback) {
+        this.timer = setInterval(() => {
+            this.timeLeft--;
+            callback(this.timeLeft);
+            if (this.timeLeft <= 0) {
+                this.endGame();
+            }
+        }, 1000);
+    }
+
+    endGame() {
+        clearInterval(this.timer);
+        return this.score;
+    }
+
+    updateScore(isCorrect) {
+        const points = this.difficulty === 'easy' ? 1 :
+                      this.difficulty === 'medium' ? 2 : 3;
+        this.score += isCorrect ? points : 0;
+        return this.score;
+    }
+
+    async getQuestion() {
+        // Temporary test questions
+        const questions = {
+            kids: {
+                easy: [
+                    {
+                        question: "Which is correct?",
+                        options: ["I am going", "I is going", "Me going", "Me am going"],
+                        correct: 0
+                    }
+                ]
+            }
+        };
+        
+        const categoryQuestions = questions[this.ageGroup]?.[this.difficulty] || [];
+        this.currentQuestion = categoryQuestions[0];
+        return this.currentQuestion;
+    }
+
+    checkAnswer(selectedIndex) {
+        const isCorrect = selectedIndex === this.currentQuestion.correct;
+        this.updateScore(isCorrect);
+        return isCorrect;
+    }
+}
+
 // Initialize game elements and state
 export function initializeGame(ageGroup, difficulty) {
     // Set game parameters

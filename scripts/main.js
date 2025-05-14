@@ -1,100 +1,95 @@
-// Import game initialization functions
-import { initializeGame } from './game.js';
+import { Game } from './game.js';
 
-// Global state
-let currentAgeGroup = '';
-let currentDifficulty = '';
-
-function selectAgeGroup(age) {
-    const clickedButton = document.querySelector(`.age-btn[data-value="${age}"]`);
-    if (!clickedButton) return;
-
-    // Always remove previous selection first
-    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
-
-    // Select new option if it's different from current
-    if (currentAgeGroup !== age) {
-        currentAgeGroup = age;
-        clickedButton.classList.add('selected');
-    } else {
-        currentAgeGroup = '';
-    }
-    
-    checkStartConditions();
-}
-
-function selectDifficulty(difficulty) {
-    const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
-    if (!clickedButton) return;
-
-    // Always remove previous selection first
-    document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
-
-    // Select new option if it's different from current
-    if (currentDifficulty !== difficulty) {
-        currentDifficulty = difficulty;
-        clickedButton.classList.add('selected');
-    } else {
-        currentDifficulty = '';
-    }
-    
-    checkStartConditions();
-}
-
-function checkStartConditions() {
-    const startButton = document.querySelector('#startGameBtn');
-    if (startButton) {
-        const canStart = currentAgeGroup && currentDifficulty;
-        startButton.disabled = !canStart;
-        
-        // Add/remove visual feedback class
-        if (canStart) {
-            startButton.classList.add('ready');
-        } else {
-            startButton.classList.remove('ready');
-        }
-    }
-}
-
-function startGame() {
-    if (!currentAgeGroup || !currentDifficulty) {
-        return;
-    }
-    
-    // Hide selection screen and show game screen
-    document.querySelector('#selection-screen').classList.add('hidden');
-    document.querySelector('#game-screen').classList.remove('hidden');
-    
-    // Initialize game with selected options
-    initializeGame(currentAgeGroup, currentDifficulty);
-}
-
-function toggleTheme() {
-    const body = document.body;
-    const themeToggle = document.querySelector('.theme-toggle');
-    
-    body.classList.toggle('light-theme');
-    themeToggle.textContent = body.classList.contains('light-theme') ? '🌙' : '☀️';
-}
-
-// Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize event listeners for age buttons
-    document.querySelectorAll('.age-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectAgeGroup(btn.dataset.value));
+    const game = new Game();
+    
+    // DOM Elements
+    const selectionScreen = document.getElementById('selection-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const scoreDisplay = document.querySelector('.score');
+    const timerDisplay = document.querySelector('.timer');
+    const themeToggle = document.querySelector('.theme-toggle');
+
+    // Theme Toggle
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
     });
 
-    // Initialize event listeners for difficulty buttons
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectDifficulty(btn.dataset.value));
+    // Selection buttons
+    document.querySelectorAll('.age-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            game.ageGroup = button.dataset.value;
+        });
     });
 
-    // Initialize start game button
-    document.querySelector('#startGameBtn').addEventListener('click', startGame);
+    document.querySelectorAll('.diff-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+            game.difficulty = button.dataset.value;
+        });
+    });
 
-    // Initialize theme toggle
-    document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
+    async function startGame() {
+        if (!game.ageGroup || !game.difficulty) {
+            alert('Please select both age group and difficulty!');
+            return;
+        }
 
-    // Initial check for start conditions
-    checkStartConditions();
+        selectionScreen.classList.add('hidden');
+        gameScreen.classList.remove('hidden');
+        
+        game.initialize(game.ageGroup, game.difficulty);
+        
+        // Start the timer
+        game.startTimer((timeLeft) => {
+            timerDisplay.textContent = `Time: ${timeLeft}s`;
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        });
+
+        // Load first question
+        await loadQuestion();
+    }
+
+    async function loadQuestion() {
+        const question = await game.getQuestion();
+        if (!question) return;
+
+        questionText.textContent = question.question;
+        optionsContainer.innerHTML = '';
+
+        question.options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.textContent = option;
+            button.addEventListener('click', () => handleAnswer(index));
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function handleAnswer(selectedIndex) {
+        const isCorrect = game.checkAnswer(selectedIndex);
+        scoreDisplay.textContent = `Score: ${game.score}`;
+        loadQuestion();
+    }
+
+    function endGame() {
+        gameScreen.classList.add('hidden');
+        selectionScreen.classList.remove('hidden');
+        alert(`Game Over! Final Score: ${game.score}`);
+    }
+
+    // Add event listener to start button
+    const startButton = document.createElement('button');
+    startButton.textContent = 'Start Game';
+    startButton.className = 'primary-btn';
+    startButton.addEventListener('click', startGame);
+    document.querySelector('.selection-container').appendChild(startButton);
 });
