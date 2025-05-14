@@ -48,78 +48,14 @@ export function initializeGame(ageGroup, difficulty) {
     // Initialize high score display
     highScoreDisplay.textContent = highScore;
 
-    // Event listeners for age buttons
-    document.querySelectorAll('.age-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectAgeGroup(btn.dataset.value));
-    });
-    
-    // Event listeners for difficulty buttons
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectDifficulty(btn.dataset.value));
-    });
-    
-    // Start button event
-    startBtn.addEventListener('click', startGame);
+    // Redundant event listeners for selection buttons removed (handled by main.js)
     
     // Play again button event
     playAgainBtn.addEventListener('click', () => {
         showScreen(selectionScreen);
     });
 
-    // Game state management functions
-    function selectAgeGroup(ageGroup) {
-        const clickedButton = document.querySelector(`.age-btn[data-value="${ageGroup}"]`);
-        if (!clickedButton) return;
-
-        // Always remove previous selection first
-        document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
-
-        // Select new option if it's different from current
-        if (currentAgeGroup !== ageGroup) {
-            currentAgeGroup = ageGroup;
-            clickedButton.classList.add('selected');
-        } else {
-            currentAgeGroup = '';
-        }
-        
-        checkStartConditions();
-    }
-
-    // Make selectAgeGroup available globally
-    window.selectAgeGroup = selectAgeGroup;
-
-    function selectDifficulty(difficulty) {
-        const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
-        if (!clickedButton) return;
-
-        // Always remove previous selection first
-        document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
-
-        // Select new option if it's different from current
-        if (currentDifficulty !== difficulty) {
-            currentDifficulty = difficulty;
-            clickedButton.classList.add('selected');
-        } else {
-            currentDifficulty = '';
-        }
-
-        checkStartConditions();
-    }
-
-    // Make selectDifficulty available globally
-    window.selectDifficulty = selectDifficulty;
-
-    function checkStartConditions() {
-        const canStart = currentAgeGroup && currentDifficulty;
-        startBtn.disabled = !canStart;
-        
-        // Add/remove visual feedback class
-        if (canStart) {
-            startBtn.classList.add('ready');
-        } else {
-            startBtn.classList.remove('ready');
-        }
-    }
+    // Redundant selection state management functions removed (handled by main.js)
 
     // Game screens management
     function showScreen(screen) {
