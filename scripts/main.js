@@ -1,37 +1,41 @@
-let selectedAge = null;
-let selectedDifficulty = null;
+// Import game initialization functions
+import { initializeGame } from './game.js';
+
+// Global state
+let currentAgeGroup = '';
+let currentDifficulty = '';
 
 function selectAgeGroup(age) {
-    // Remove selected class from all age buttons
-    document.querySelectorAll('.age-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    
-    // Add selected class to clicked button
-    const selectedBtn = document.querySelector(`.age-btn[data-value="${age}"]`);
-    if (selectedBtn) {
-        selectedBtn.classList.add('selected');
-        selectedAge = age;
+    const clickedButton = document.querySelector(`.age-btn[data-value="${age}"]`);
+    if (!clickedButton) return;
+
+    // Always remove previous selection first
+    document.querySelectorAll('.age-btn').forEach(btn => btn.classList.remove('selected'));
+
+    // Select new option if it's different from current
+    if (currentAgeGroup !== age) {
+        currentAgeGroup = age;
+        clickedButton.classList.add('selected');
     } else {
-        selectedAge = '';
+        currentAgeGroup = '';
     }
     
     checkStartConditions();
 }
 
 function selectDifficulty(difficulty) {
-    // Remove selected class from all difficulty buttons
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-    
-    // Add selected class to clicked button
-    const selectedBtn = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
-    if (selectedBtn) {
-        selectedBtn.classList.add('selected');
-        selectedDifficulty = difficulty;
+    const clickedButton = document.querySelector(`.diff-btn[data-value="${difficulty}"]`);
+    if (!clickedButton) return;
+
+    // Always remove previous selection first
+    document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('selected'));
+
+    // Select new option if it's different from current
+    if (currentDifficulty !== difficulty) {
+        currentDifficulty = difficulty;
+        clickedButton.classList.add('selected');
     } else {
-        selectedDifficulty = '';
+        currentDifficulty = '';
     }
     
     checkStartConditions();
@@ -40,7 +44,7 @@ function selectDifficulty(difficulty) {
 function checkStartConditions() {
     const startButton = document.querySelector('#startGameBtn');
     if (startButton) {
-        const canStart = selectedAge && selectedDifficulty;
+        const canStart = currentAgeGroup && currentDifficulty;
         startButton.disabled = !canStart;
         
         // Add/remove visual feedback class
@@ -53,16 +57,16 @@ function checkStartConditions() {
 }
 
 function startGame() {
-    if (!selectedAge || !selectedDifficulty) {
+    if (!currentAgeGroup || !currentDifficulty) {
         return;
     }
     
-    // Hide welcome screen and show game screen
-    document.querySelector('#welcomeScreen').classList.remove('active');
-    document.querySelector('#gameScreen').classList.add('active');
+    // Hide selection screen and show game screen
+    document.querySelector('#selection-screen').classList.add('hidden');
+    document.querySelector('#game-screen').classList.remove('hidden');
     
     // Initialize game with selected options
-    initializeGame(selectedAge, selectedDifficulty);
+    initializeGame(currentAgeGroup, currentDifficulty);
 }
 
 function toggleTheme() {
@@ -75,5 +79,22 @@ function toggleTheme() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
-    checkStartButtonState();
+    // Initialize event listeners for age buttons
+    document.querySelectorAll('.age-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectAgeGroup(btn.dataset.value));
+    });
+
+    // Initialize event listeners for difficulty buttons
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectDifficulty(btn.dataset.value));
+    });
+
+    // Initialize start game button
+    document.querySelector('#startGameBtn').addEventListener('click', startGame);
+
+    // Initialize theme toggle
+    document.querySelector('.theme-toggle').addEventListener('click', toggleTheme);
+
+    // Initial check for start conditions
+    checkStartConditions();
 });

@@ -6,10 +6,11 @@
     <title>Grammar Rush</title>
     <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="scripts/main.js" defer></script>
     <script type="module" src="scripts/game.js" defer></script>
 </head>
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <button class="theme-toggle">🌙</button>
     
     <div class="game-container">
         <div id="selection-screen" class="screen">
@@ -20,15 +21,15 @@
                 <div class="selection-section">
                     <h2>Age Group</h2>
                     <div class="age-group-buttons">
-                        <button class="age-btn" data-value="kids" onclick="selectAgeGroup('kids')">
+                        <button class="age-btn" data-value="kids">
                             <i>👶</i> Kids
                             <small>Ages 8-12</small>
                         </button>
-                        <button class="age-btn" data-value="teens" onclick="selectAgeGroup('teens')">
+                        <button class="age-btn" data-value="teens">
                             <i>👦</i> Teens
                             <small>Ages 13-17</small>
                         </button>
-                        <button class="age-btn" data-value="adults" onclick="selectAgeGroup('adults')">
+                        <button class="age-btn" data-value="adults">
                             <i>👨</i> Adults
                             <small>Ages 18+</small>
                         </button>
@@ -38,19 +39,19 @@
                 <div class="selection-section">
                     <h2>Difficulty</h2>
                     <div class="difficulty-buttons">
-                        <button class="diff-btn" data-value="easy" onclick="selectDifficulty('easy')">
+                        <button class="diff-btn" data-value="easy">
                             <i>🌟</i> Easy
                         </button>
-                        <button class="diff-btn" data-value="medium" onclick="selectDifficulty('medium')">
+                        <button class="diff-btn" data-value="medium">
                             <i>🌟🌟</i> Medium
                         </button>
-                        <button class="diff-btn" data-value="hard" onclick="selectDifficulty('hard')">
+                        <button class="diff-btn" data-value="hard">
                             <i>🌟🌟🌟</i> Hard
                         </button>
                     </div>
                 </div>
                 
-                <button id="start-btn" class="primary-btn" disabled>
+                <button id="startGameBtn" class="primary-btn" disabled>
                     <i>🎮</i> Start Game
                 </button>
             </div>

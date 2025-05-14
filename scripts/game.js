@@ -22,26 +22,28 @@ function initTheme() {
     }
 }
 
-// Wait for DOM to load before attaching event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize theme
-    initTheme();
-    // DOM Elements
-    const startBtn = document.getElementById('start-btn');
-    const playAgainBtn = document.getElementById('play-again-btn');
+// Initialize game elements and state
+export function initializeGame(ageGroup, difficulty) {
+    // Set game parameters
+    currentAgeGroup = ageGroup;
+    currentDifficulty = difficulty;
+    
+    // Initialize DOM Elements
     const scoreDisplay = document.getElementById('score-display');
     const timeDisplay = document.getElementById('time-display');
     const levelDisplay = document.getElementById('level-display');
     const finalScoreDisplay = document.getElementById('final-score');
     const highScoreDisplay = document.getElementById('high-score');
-    const questionText = document.getElementById('question-text');
-    const optionsContainer = document.getElementById('options-container');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
     const rewardMessage = document.getElementById('reward-message');
 
-    // Screens
-    const selectionScreen = document.getElementById('selection-screen');
+    // Initialize screens
     const gameScreen = document.getElementById('game-screen');
     const resultScreen = document.getElementById('result-screen');
+
+    // Start the game
+    startGame();
 
     // Initialize high score display
     highScoreDisplay.textContent = highScore;
