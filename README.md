@@ -29,13 +29,48 @@ Grammar Rush is an interactive web-based game designed to make learning grammar 
 
 ## 🚀 Getting Started
 
-1. Visit the live game at: https://github.com/HieuEnglish/Grammar-Rush
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v14 or later recommended)
+- npm (comes with Node.js)
 
-Or run locally:
+### Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/HieuEnglish/Grammar-Rush.git 
-cd GrammarRush
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/HieuEnglish/Grammar-Rush.git
+   cd GrammarRush
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and navigate to `http://localhost:3000` (or the port shown in your terminal).
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/your-feature-name`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/your-feature-name`)
+5. Open a Pull Request
+
+Please follow the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct.
+
+## 📸 Screenshots & GIFs
+
+| Gameplay | Responsive UI |
+|----------|--------------|
+| ![Gameplay Screenshot](./screenshots/gameplay.png) | ![Responsive UI](./screenshots/responsive.gif) |
+
+> _Add your own screenshots or GIFs to the `screenshots/` folder and update this section!_
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 
