@@ -6,7 +6,8 @@
   "main": "scripts/main.js",
   "scripts": {
     "start": "live-server",
-    "test": "echo \"No tests specified\""
+    "test": "echo \"No tests specified\"",
+    "build": "webpack --mode production"
   },
   "dependencies": {},
   "devDependencies": {
