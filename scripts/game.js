@@ -89,7 +89,8 @@ export class Game {
 }
 
 // Initialize game elements and state
-export function initializeGame(ageGroup, difficulty) {
+document.addEventListener('DOMContentLoaded', function() {
+    function initializeGame(ageGroup, difficulty) {
     // Set game parameters
     currentAgeGroup = ageGroup;
     currentDifficulty = difficulty;
@@ -315,10 +316,17 @@ export function initializeGame(ageGroup, difficulty) {
             }, 1500);
         }
     }
-// Theme toggle
-function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
+    // Theme toggle
+        function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    }
+
+    // Initialize theme toggle event listener
     const themeToggle = document.querySelector('.theme-toggle');
-    themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
-    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
 }
