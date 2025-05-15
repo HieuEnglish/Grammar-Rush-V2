@@ -1,0 +1,15 @@
+{
+  "name": "grammar-rush",
+  "version": "1.0.0",
+  "description": "Grammar learning game",
+  "type": "module",
+  "main": "scripts/main.js",
+  "scripts": {
+    "start": "live-server",
+    "test": "echo \"No tests specified\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

@@ -6,8 +6,10 @@
     <title>Grammar Rush</title>
     <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-    <script type="module" src="scripts/main.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Game.js should load first since main.js might depend on it -->
     <script type="module" src="scripts/game.js" defer></script>
+    <script type="module" src="scripts/main.js" defer></script>
 </head>
 <body>
     <header>
@@ -90,9 +92,40 @@
                 </button>
             </section>
         </div>
+<<<<<<< HEAD
     </main>
     <footer>
         <p>&copy; 2024 Grammar Rush</p>
     </footer>
+=======
+
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="timer">Time: 60s</div>
+                <div class="score">Score: 0</div>
+            </div>
+            <div class="question-container">
+                <p id="questionText"></p>
+                <div id="optionsContainer" class="options-container"></div>
+            </div>
+        </div>
+
+        <div id="result-screen" class="screen hidden">
+            <h2>Game Over!</h2>
+            <div class="stats">
+                <p>Final Score: <span id="final-score">0</span></p>
+                <p>High Score: <span id="high-score">0</span></p>
+            </div>
+
+            <div id="reward-message" class="reward-message"></div>
+
+            <button id="play-again-btn" class="primary-btn">
+                <i>🔄</i> Play Again
+            </button>
+        </div>
+    </div>
+
+
+>>>>>>> a659ad2cffef48cda31e1c381279fd2df323df82
 </body>
 </html>
