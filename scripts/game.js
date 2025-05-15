@@ -72,6 +72,18 @@ export function answerQuestion(selectedIndex) {
     const isCorrect = selectedIndex === question.correctIndex;
     updateScore(isCorrect ? 10 * currentLevel : 0);
     currentQuestionIndex++;
+    // Provide feedback for correct/incorrect answers
+    if (typeof window !== 'undefined') {
+        const feedbackElem = document.getElementById('feedback');
+        if (feedbackElem) {
+            feedbackElem.textContent = isCorrect ? 'Correct!' : `Incorrect! Correct answer: ${question.options[question.correctIndex]}`;
+            feedbackElem.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            setTimeout(() => {
+                feedbackElem.textContent = '';
+                feedbackElem.className = 'feedback';
+            }, 1200);
+        }
+    }
     return isCorrect;
 }
 
