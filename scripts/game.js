@@ -302,8 +302,7 @@ export function initializeGame(ageGroup, difficulty) {
                 rewardMessage.classList.remove('show');
             }, 1500);
         }
-    }
-});
+}
 
 // Theme toggle
 function toggleTheme() {
