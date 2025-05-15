@@ -41,6 +41,7 @@ export function initializeGame(ageGroup, difficulty) {
     // Initialize screens
     const gameScreen = document.getElementById('game-screen');
     const resultScreen = document.getElementById('result-screen');
+    const playAgainBtn = document.getElementById('playAgainBtn'); // Ensure this element is fetched
 
     // Start the game
     startGame();
@@ -51,25 +52,26 @@ export function initializeGame(ageGroup, difficulty) {
     // Redundant event listeners for selection buttons removed (handled by main.js)
     
     // Play again button event
-    playAgainBtn.addEventListener('click', () => {
-        showScreen(selectionScreen);
-    });
+    if (playAgainBtn) { // Ensure the button exists
+        playAgainBtn.addEventListener('click', () => {
+            if (resultScreen) resultScreen.classList.add('hidden');
+            if (gameScreen) gameScreen.classList.add('hidden'); // Also hide game screen
+            const selectionScreenElement = document.getElementById('selection-screen');
+            if (selectionScreenElement) selectionScreenElement.classList.remove('hidden');
+        });
+    }
 
     // Redundant selection state management functions removed (handled by main.js)
 
     // Game screens management
-    function showScreen(screen) {
-        // Hide all screens first
-        [selectionScreen, gameScreen, resultScreen].forEach(s => s.classList.add('hidden'));
-        
-        // Show the requested screen
-        screen.classList.remove('hidden');
-        
-        // Special handling for game screen
-        if (screen === gameScreen && currentAgeGroup && currentDifficulty) {
-            loadQuestions();
-            loadQuestion();
-        }
+    function showScreen(screenToShow) {
+        // Hide game-specific screens that game.js manages
+        if (gameScreen) gameScreen.classList.add('hidden');
+        if (resultScreen) resultScreen.classList.add('hidden');
+
+        // Show the requested game-specific screen
+        if (screenToShow) screenToShow.classList.remove('hidden');
+        // Special handling for loading questions is now solely within startGame or levelUp.
     }
 
     // Game initialization and logic
@@ -89,8 +91,18 @@ export function initializeGame(ageGroup, difficulty) {
         loadQuestions();
         
         if (currentQuestions.length === 0) {
-            console.error('No questions loaded');
-            return;
+            console.error('No questions loaded for ' + currentAgeGroup + ', ' + currentDifficulty);
+            if (questionText) {
+                questionText.textContent = 'Sorry, no questions are available for the selected age group and difficulty. Please try other options.';
+            }
+            if (optionsContainer) {
+                optionsContainer.innerHTML = ''; // Clear any potential previous options
+            }
+            // Optionally, update other UI elements to reflect a non-started game state
+            if (timeDisplay) timeDisplay.textContent = 'N/A';
+            if (scoreDisplay) scoreDisplay.textContent = '0';
+            if (levelDisplay) levelDisplay.textContent = '1';
+            return; // Prevent further game initialization like starting timer or loading a question
         }
 
         // Update UI
@@ -99,7 +111,7 @@ export function initializeGame(ageGroup, difficulty) {
         timeDisplay.textContent = timeLeft + 's';
         
         // Show game screen and load first question
-        showScreen(gameScreen);
+        // gameScreen is already made visible by main.js.
         loadQuestion();
         
         // Start the timer
@@ -237,7 +249,7 @@ export function initializeGame(ageGroup, difficulty) {
             }, 1500);
         }
     }
-});
+}
 
 // Theme toggle
 function toggleTheme() {
@@ -246,6 +258,3 @@ function toggleTheme() {
     themeToggle.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
     localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
 }
-
-// Make toggleTheme available globally
-window.toggleTheme = toggleTheme;
