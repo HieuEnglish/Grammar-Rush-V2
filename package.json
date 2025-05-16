@@ -5,12 +5,18 @@
   "type": "module",
   "main": "scripts/main.js",
   "scripts": {
-    "start": "live-server",
+    "start": "webpack serve --mode development",
+    "dev": "live-server",
     "test": "echo \"No tests specified\"",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development"
   },
-  "dependencies": {},
+  "dependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "webpack-dev-server": "^4.15.1"
   }
 }
