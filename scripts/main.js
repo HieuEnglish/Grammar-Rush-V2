@@ -69,17 +69,67 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.className = 'option-btn';
             button.textContent = option;
-            button.addEventListener('click', () => handleAnswer(index));
+            button.setAttribute('tabindex', '0');
+            button.setAttribute('aria-label', option);
+            button.addEventListener('click', () => handleAnswer(index, button));
+            button.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    handleAnswer(index, button);
+                }
+            });
             optionsContainer.appendChild(button);
         });
+        updateProgressBar();
     }
 
-    function handleAnswer(selectedIndex) {
+    function handleAnswer(selectedIndex, button) {
         const isCorrect = game.checkAnswer(selectedIndex);
         scoreDisplay.textContent = `Score: ${game.score}`;
-        loadQuestion();
+        // Visual feedback
+        if (isCorrect) {
+            button.classList.add('correct');
+            button.innerHTML += ' <span class="feedback" aria-label="Correct">✔️</span>';
+        } else {
+            button.classList.add('incorrect');
+            button.innerHTML += ' <span class="feedback" aria-label="Incorrect">❌</span>';
+        }
+        // Disable all buttons after answer
+        Array.from(optionsContainer.children).forEach(btn => {
+            btn.disabled = true;
+        });
+        setTimeout(() => {
+            loadQuestion();
+        }, 900);
     }
 
+    // Progress Bar
+    function updateProgressBar() {
+        let progressBar = document.getElementById('progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.id = 'progress-bar';
+            progressBar.setAttribute('role', 'progressbar');
+            progressBar.setAttribute('aria-valuemin', '0');
+            progressBar.setAttribute('aria-valuemax', game.totalQuestions);
+            progressBar.setAttribute('aria-valuenow', game.currentQuestionIndex + 1);
+            progressBar.style.height = '16px';
+            progressBar.style.background = '#eee';
+            progressBar.style.borderRadius = '8px';
+            progressBar.style.margin = '1rem 0';
+            const fill = document.createElement('div');
+            fill.id = 'progress-fill';
+            fill.style.height = '100%';
+            fill.style.background = '#4caf50';
+            fill.style.borderRadius = '8px';
+            fill.style.width = '0%';
+            progressBar.appendChild(fill);
+            gameScreen.insertBefore(progressBar, questionText);
+        }
+        const fill = document.getElementById('progress-fill');
+        const percent = ((game.currentQuestionIndex + 1) / game.totalQuestions) * 100;
+        fill.style.width = percent + '%';
+        progressBar.setAttribute('aria-valuenow', game.currentQuestionIndex + 1);
+    }
     function endGame() {
         gameScreen.classList.add('hidden');
         selectionScreen.classList.remove('hidden');
