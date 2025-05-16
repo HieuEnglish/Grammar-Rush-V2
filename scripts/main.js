@@ -136,10 +136,15 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Game Over! Final Score: ${game.score}`);
     }
 
-    // Add event listener to start button
-    const startButton = document.createElement('button');
-    startButton.textContent = 'Start Game';
-    startButton.className = 'primary-btn';
-    startButton.addEventListener('click', startGame);
-    document.querySelector('.selection-container').appendChild(startButton);
+    // Connect to existing start button
+    document.getElementById('startGameBtn').addEventListener('click', startGame);
+    
+    // Enable start button when selections are made
+    document.querySelectorAll('.age-btn, .diff-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const ageSelected = document.querySelector('.age-btn.selected');
+            const diffSelected = document.querySelector('.diff-btn.selected');
+            document.getElementById('startGameBtn').disabled = !(ageSelected && diffSelected);
+        });
+    });
 });
