@@ -1,6 +1,6 @@
-# Grammar Rush 📚
+# Grammar Rush V2 📚
 
-Grammar Rush is an interactive web-based game designed to make learning grammar fun and engaging for all ages. With age-specific content and multiple difficulty levels, it provides a challenging yet enjoyable way to improve your grammar skills.
+Grammar Rush V2 is an interactive web-based game designed to make learning grammar fun and engaging for all ages. With age-specific content and multiple difficulty levels, it provides a challenging yet enjoyable way to improve your grammar skills.
 
 ## 🌟 Features
 
